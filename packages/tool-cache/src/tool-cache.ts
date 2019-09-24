@@ -223,11 +223,7 @@ export async function extractZip(file: string, dest?: string): Promise<string> {
   if (IS_WINDOWS) {
     await extractZipWin(file, dest)
   } else {
-    if (process.platform === 'darwin') {
-      await extractZipDarwin(file, dest)
-    } else {
-      await extractZipNix(file, dest)
-    }
+    await extractZipNix(file, dest)
   }
 
   return dest
@@ -256,17 +252,6 @@ async function extractZipWin(file: string, dest: string): Promise<void> {
 
 async function extractZipNix(file: string, dest: string): Promise<void> {
   const unzipPath = path.join(__dirname, '..', 'scripts', 'externals', 'unzip')
-  await exec(`"${unzipPath}"`, [file], {cwd: dest})
-}
-
-async function extractZipDarwin(file: string, dest: string): Promise<void> {
-  const unzipPath = path.join(
-    __dirname,
-    '..',
-    'scripts',
-    'externals',
-    'unzip-darwin'
-  )
   await exec(`"${unzipPath}"`, [file], {cwd: dest})
 }
 
